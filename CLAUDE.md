@@ -1,43 +1,52 @@
-# International College for Claude Code: operating instructions
+# International College for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+For international-college enrolment, finance and student-support staff in Australia and New Zealand. All demo records are fictional. Read README.md, docs/cli.md and docs/compliance.md first.
 
-## Who this is for
+## Rules
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+Read the affected record before changing it. Use scripts/college.mjs for recurring work. Never invent evidence, send messages, report to a regulator or cancel a student's enrolment. Regulatory flags require trained staff review. Ambiguity means list the candidates. Keep receipts separate by currency. A missing attendance mark is unknown. Never seed real records. Do not open or print credentials.
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+## Routing
 
-## How to work
-
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
-
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| Request | Recipe |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| Review the college decisions | /attention |
+| Find a student | /students |
+| Review course settings | /courses |
+| Review intake capacity | /intakes |
+| Review enrolments | /enrolments |
+| Prepare the next intake | /intake-readiness |
+| Review attendance coverage and risk | /attendance-watch |
+| Complete the attendance register | /missing-marks |
+| Review course progress | /progress-review |
+| Review CoE dates | /coe-expiry |
+| Reconcile tuition balances | /balances |
+| Prepare the tuition follow-up | /fees-due |
+| Review education agent agreements and referrals | /agent-review |
+| Review pastoral care actions | /support-due |
+| Find students without recent contact | /quiet-students |
+| Review evidence against configured rules | /compliance |
+| Find attendance risk with overdue fees | /risk-and-fees |
+| Read one student | /student |
+| Read the full enrolment history | /enrolment |
+| Add a student or course record | /add |
+| Place a student in an intake | /enrol |
+| Record a taught day | /schedule |
+| Mark attendance | /mark |
+| Record an academic review | /progress |
+| Record verified enrolment evidence | /evidence |
+| Record a tuition invoice | /fee |
+| Record a confirmed receipt | /payment |
+| Assign a student support action | /support |
+| Close a completed support action | /resolve |
+| Record a student contact | /log |
+| Draft a support invitation | /draft-support |
+| Import a mapped eBECAS export | /import |
+| Export college records | /export |
+| Monday review | /weekly-review |
+| Change the system | /customise |
+| Add a report | /new-view |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+Recipes live in .claude/commands. All coding agents use the same scripts and database. New migrations go in supabase/migrations. Drafts go in drafts. Shared production access, retention and backups must be configured by the operator. Never delete history without explicit approval.
 
-## Hard rules
-
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
-
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off eBECAS.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/ebecas
+Built and run through Omni by Enterprise DNA.

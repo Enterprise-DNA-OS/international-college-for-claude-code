@@ -1,115 +1,98 @@
-<h1 align="center">International College for Claude Code</h1>
+# International College for Claude Code
 
-<p align="center">
-  <strong>The open-source student management system for international colleges that is just a database and Claude Code.</strong>
-</p>
+Students, enrolments, attendance, tuition and support actions in a database your college owns. Built by Enterprise DNA. MIT licence.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free code, your installation and database. | Your fields, policy checks, eBECAS migration, preferred stack and a web front end if needed. | Installed, connected and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
+| [Quick start](#quick-start) | [Get your version built](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=ebecas) | [Book a call](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=ebecas) |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your eBECAS data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=ebecas">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/ebecas?utm_source=github&utm_medium=readme&utm_campaign=ebecas">How it works</a></td>
-  </tr>
-</table>
+Use Claude Code, Codex, OpenCode or Cursor. All agents read the same data and recipes through AGENTS.md and CLAUDE.md.
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-ebecas">Instead of eBECAS</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+## What works today
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
+Review intakes, reconcile missing attendance marks, record academic progress, review CoE dates, reconcile tuition instalments and assign pastoral support actions. Australian ELICOS and New Zealand evidence checks stay separate. Read-only dashboards and four branded document types come from the same records.
 
----
-
-## What is this
-
-International College for Claude Code does the job you pay eBECAS for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the eBECAS dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays eBECAS per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=ebecas).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+The free base covers college back-office records. eBECAS also supplies class allocation, portals, financial functions and integrations outside this base. There is no claim of full parity or that eBECAS cannot produce similar analysis. Read the [scope](docs/why-no-front-end.md) and [evidence rules](docs/compliance.md) before using real student records.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or newer:
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/international-college-for-claude-code.git
 cd international-college-for-claude-code
 npm install
+npm test
 npm run demo
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The fictional Harbour International College demo has six students, three courses and four intakes in Sydney and Auckland. Relative dates keep the first seed useful. It includes repeated absence, missing marks, overdue tuition, a CoE that ends early, expired agent evidence and missing NZ insurance. Seed is repeatable and does not overwrite existing records.
 
-### Use it with your own Postgres or Supabase
+Ask /attendance-watch, /fees-due or /weekly-review. The [CLI guide](docs/cli.md) includes write recipes. Minutes and cents are stored as integers. All dates are read in UTC.
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+### Real records
 
-## The commands
+Use a fresh DATA_DIR, run npm run migrate, then import. Do not seed real records. Embedded PGlite allows one process at a time. For a shared installation, set DATABASE_URL to your own PostgreSQL database and arrange least-privilege access, encryption, backups and retention. No hosted database is provisioned by this code.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+## Commands
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+/add, /agent-review, /attendance-watch, /attention, /balances, /coe-expiry, /compliance, /courses, /customise, /draft-support, /enrol, /enrolment, /enrolments, /evidence, /export, /fee, /fees-due, /import, /intake-readiness, /intakes, /log, /mark, /missing-marks, /new-view, /payment, /progress, /progress-review, /quiet-students, /resolve, /risk-and-fees, /schedule, /student, /students, /support, /support-due, /weekly-review
 
-## Instead of ebecas
+Every read accepts --json. Ambiguous names list candidates and exit 1. Unknown commands fail. The routing table is in CLAUDE.md.
 
-<!-- TODO(author): how to bring data across from eBECAS; link docs/replace-ebecas.md -->
+## Documents and views
 
-## Architecture
+One brand.json controls the business name, logo and colours. npm run docs creates an enrolment schedule draft, fee statement, attendance record and support review worksheet for each enrolment. A trained staff member checks each document. These are not government CoEs or intention-to-report notices.
 
+npm run view creates the college week, attendance coverage and fee-balance dashboards. /new-view adds another read-only report. /draft-support writes a support invitation with internal evidence in drafts. Remove internal evidence before sending. Nothing sends from this system.
+
+## Ten questions you can ask today
+
+Supported questions, not claims that eBECAS lacks equivalent reports:
+
+1. Which students have both attendance concerns and unpaid tuition? (`risk-and-fees`)
+2. Which attendance percentages hide missing register marks? (`attendance-watch`)
+3. Which taught days still need a mark for each student? (`missing-marks`)
+4. Which CoE end dates fall before the course finishes? (`coe-expiry`)
+5. Which students need an academic progress review? (`progress-review`)
+6. Which support actions are waiting for a named owner to finish them? (`support-due`)
+7. Which active students have no contact note for a fortnight? (`quiet-students`)
+8. Which agents have students at academic risk and an expired agreement? (`agent-review`)
+9. Which fee instalments fall due this week, by currency? (`fees-due`)
+10. Which enrolments are missing agreements or NZ insurance evidence? (`compliance`)
+
+## Your first hour: ten things to ask for
+
+1. Put our college name and logo on the statements.
+2. Map one small eBECAS cohort into the new records.
+3. Add our campus and intake identifiers.
+4. Match the attendance settings to our registration conditions.
+5. Add our agreement evidence references.
+6. Set academic review reminders to our documented policy.
+7. Add the named support team and its escalation steps.
+8. Add a field for a student's preferred contact method.
+9. Make a view for one campus's missing marks.
+10. Add an evidence rule for our particular provider obligations.
+
+/customise writes a migration, applies it and runs the tests. Applied migrations are never rewritten. Changes to legal rules require source review.
+
+## Switching from eBECAS
+
+The vendor confirms filtered grid exports. Export and map your columns once, then load students, courses, intakes and enrolments in one command. This is not a complete one-day migration of college history. Attendance history, financial records and supporting documents require separate reviewed mapping. See the [switch guide](docs/replace-ebecas.md).
+
+```bash
+npm run college -- import ebecas mapped-enrolments.csv --dry-run
+npm run college -- import ebecas mapped-enrolments.csv
+npm run college -- export --out=./exports/first-backup
 ```
-international-college-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
 
-## Built for coding agents
+Reimporting matching records does not duplicate them. Conflicting records fail and the entire import rolls back. Imports never manufacture compliance evidence. Keep the original source files and reconcile all records before cutover.
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Validation and ownership
 
-## Contributing
+npm test builds a temporary database and exercises every read, enrolment capacity, attendance boundaries and missing marks, evidence writes, exact receipt balances, support resolution, import rollback, export, draft generation and branded paperwork. CI runs PGlite checks on Windows and Linux, and PostgreSQL 16 checks with a concurrent-capacity test. Local results and CI status are separate evidence.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
-
-## Want it installed and run for you?
-
-Enterprise DNA installs International College for Claude Code for your business, migrates your eBECAS data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
-
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=ebecas)
-- Read more: [enterprisedna.co/omni/instead-of/ebecas](https://enterprisedna.co/omni/instead-of/ebecas?utm_source=github&utm_medium=readme&utm_campaign=ebecas)
-
-## License
-
-MIT. Copyright (c) 2026 Enterprise DNA.
+MIT licence. Hosting, agent subscriptions and operations cost separately. Government reporting and student notifications stay with authorised college staff. Enterprise DNA can customise and operate your version through Omni by Enterprise DNA: [30 minutes with Sam](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=ebecas).

@@ -1,0 +1,42 @@
+[
+  [
+    "Which students have both attendance concerns and unpaid tuition?",
+    "risk-and-fees"
+  ],
+  [
+    "Which attendance percentages hide missing register marks?",
+    "attendance-watch"
+  ],
+  [
+    "Which taught days still need a mark for each student?",
+    "missing-marks"
+  ],
+  [
+    "Which CoE end dates fall before the course finishes?",
+    "coe-expiry"
+  ],
+  [
+    "Which students need an academic progress review?",
+    "progress-review"
+  ],
+  [
+    "Which support actions are waiting for a named owner to finish them?",
+    "support-due"
+  ],
+  [
+    "Which active students have no contact note for a fortnight?",
+    "quiet-students"
+  ],
+  [
+    "Which agents have students at academic risk and an expired agreement?",
+    "agent-review"
+  ],
+  [
+    "Which fee instalments fall due this week, by currency?",
+    "fees-due"
+  ],
+  [
+    "Which enrolments are missing agreements or NZ insurance evidence?",
+    "compliance"
+  ]
+]

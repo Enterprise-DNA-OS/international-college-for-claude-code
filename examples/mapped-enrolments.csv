@@ -1,0 +1,2 @@
+Enrolment ID,Student ID,Student Name,Email,Country,Course Code,Course Name,Jurisdiction,Sector,Intake Code,Campus,Start Date,End Date,Capacity,Weekly Hours,Attendance Required,Status
+IMPORT-E1,IMPORT-S1,Example Learner,learner@example.test,JP,IMPORT-GE,Imported English,AU,ELICOS,IMPORT-INTAKE,Sydney,2026-09-01,2026-12-18,20,20,yes,active

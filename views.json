@@ -1,13 +1,38 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "International College for Claude Code: what needs attention, rendered by npm run view",
+    "title": "College week",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Decisions requiring review",
+        "sql": "select external_id,student,rule,finding from v_compliance order by external_id,rule",
+        "note": "Evidence checks for staff review. No automatic government reporting."
+      },
+      {
+        "title": "Enrolments",
+        "sql": "select external_id,student,intake,progress,open_cases from v_enrolments order by external_id"
+      }
+    ]
+  },
+  {
+    "name": "attendance",
+    "title": "Attendance register coverage",
+    "sections": [
+      {
+        "title": "Recorded attendance",
+        "sql": "select external_id,student,intake,scheduled_days,marked_days,marked_percent,coverage from v_attendance order by external_id",
+        "note": "Percentage covers marked sessions only. Check register coverage and the full approved timetable before drawing conclusions."
+      }
+    ]
+  },
+  {
+    "name": "fees",
+    "title": "Tuition fee balances",
+    "sections": [
+      {
+        "title": "Outstanding invoices",
+        "sql": "select external_id,student,due_on,currency,amount_cents,paid_cents,balance_cents from v_balances where balance_cents>0 order by currency,due_on",
+        "note": "Recorded invoice balances, not a tax ledger or payment service."
       }
     ]
   }

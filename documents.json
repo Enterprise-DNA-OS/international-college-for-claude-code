@@ -1,11 +1,78 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "enrolment-schedule",
+    "title": "Enrolment schedule draft",
+    "for_each": "select e.id,e.external_id from enrolments e order by e.external_id",
+    "file": "external_id",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Course and dates",
+        "sql": "select external_id,student,course,campus,starts_on,ends_on,coe,coe_until from v_enrolments where id=$1",
+        "note": "Schedule for attaching to your reviewed written agreement. Not a government-issued CoE, offer contract or visa approval."
+      },
+      {
+        "title": "Fee schedule",
+        "sql": "select external_id,description,due_on,currency,amount_cents from v_balances where enrolment_id=$1 order by due_on"
+      }
+    ]
+  },
+  {
+    "name": "fee-statement",
+    "title": "Student fee statement",
+    "for_each": "select e.id,e.external_id from enrolments e order by e.external_id",
+    "file": "external_id",
+    "sections": [
+      {
+        "title": "Student and course",
+        "sql": "select external_id,student,course,intake from v_enrolments where id=$1"
+      },
+      {
+        "title": "Invoices and payments",
+        "sql": "select external_id,description,due_on,currency,amount_cents,paid_cents,balance_cents from v_balances where enrolment_id=$1 order by due_on",
+        "note": "Balances reflect recorded receipts. Check against your bank and accounting system."
+      }
+    ]
+  },
+  {
+    "name": "attendance-record",
+    "title": "Attendance record",
+    "for_each": "select e.id,e.external_id from enrolments e order by e.external_id",
+    "file": "external_id",
+    "sections": [
+      {
+        "title": "Summary",
+        "sql": "select external_id,student,scheduled_days,marked_days,marked_percent,coverage from v_attendance where id=$1",
+        "note": "Missing marks are unknown. Approved absences remain scheduled contact hours in this base."
+      },
+      {
+        "title": "Daily register",
+        "sql": "select ss.held_on,ss.minutes scheduled_minutes,a.attended_minutes,a.approved_absence,a.evidence from enrolments e join sessions ss on ss.intake_id=e.intake_id left join attendance a on a.session_id=ss.id and a.enrolment_id=e.id where e.id=$1 and ss.held_on<=current_date order by ss.held_on"
+      }
+    ]
+  },
+  {
+    "name": "support-plan",
+    "title": "Student support review worksheet",
+    "for_each": "select e.id,e.external_id from enrolments e order by e.external_id",
+    "file": "external_id",
+    "sections": [
+      {
+        "title": "Student and course",
+        "sql": "select external_id,student,progress,progress_on,ends_on from v_enrolments where id=$1"
+      },
+      {
+        "title": "Evidence gaps",
+        "sql": "select rule,finding,source from v_compliance where id=$1",
+        "note": "A review aid. Not an intention-to-report notice. Staff determine interventions, exceptions and appeal steps."
+      },
+      {
+        "title": "Actions and owners",
+        "sql": "select reason,owner,due_on,status,resolution from support_cases where enrolment_id=$1 order by due_on"
+      },
+      {
+        "title": "Contact history",
+        "sql": "select body,created_at from notes where enrolment_id=$1 order by created_at"
+      }
     ]
   }
 ]
